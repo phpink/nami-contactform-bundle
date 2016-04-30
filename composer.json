@@ -1,0 +1,33 @@
+{
+    "name": "nphpink/nami-contactform-bundle",
+    "description": "Nami CMS - ContactForm Bundle",
+    "type": "symfony-bundle",
+    "keywords": ["Nami", "Plugin", "Contact", "form"],
+    "homepage": "http://nami.php.ink",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Geoffroy Pierret",
+            "email": "geoffroy@php.ink"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "phpink/nami-core-bundle": "dev-features-sf3"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/phpink/nami-core-bundle"
+        }
+    ],
+    "require-dev": {},
+    "autoload": {
+        "psr-4": { "PhpInk\\Nami\\ContactFormBundle\\": "" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1-dev"
+        }
+    }
+}

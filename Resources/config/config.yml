@@ -1,0 +1,12 @@
+parameters:
+  namicontactform.mail_to: "email@provider.com"
+  namicontactform.mail_template: "@NamiContactFormBundle/Resources/views/mail.html.twig"
+  namicontactform.block_template: "@NamiContactFormBundle/Resources/views/block.html.twig"
+
+services:
+
+    # BlockRenderEvent listener
+    nami_core.listener:
+        class: PhpInk\Nami\CoreBundle\EventListener\BlockRenderListener
+        tags:
+            - { name: kernel.event_listener, event: nami.block.render, method: onBlockRender }
