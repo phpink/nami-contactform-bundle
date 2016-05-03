@@ -44,7 +44,7 @@ class CaptchaType extends AbstractType
      */
     public function __construct(SessionInterface $session, TranslatorInterface $translator, $options = array())
     {
-        $this->session      = $session;
+        $this->session      = $options['session'];
         $this->translator  = $translator;
         $this->options      = $options;
     }

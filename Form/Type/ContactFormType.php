@@ -13,11 +13,6 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 class ContactFormType extends AbstractType
 {
     /**
-     * @var SessionInterface
-     */
-    protected $session;
-
-    /**
      * @var TranslatorInterface
      */
     protected $translator;
@@ -29,15 +24,14 @@ class ContactFormType extends AbstractType
     private $options = array();
 
     /**
-     * @param SessionInterface    $session
      * @param TranslatorInterface $translator
      * @param array               $options
      */
-    public function __construct(SessionInterface $session, TranslatorInterface $translator, $options = array())
+    public function __construct(TranslatorInterface $translator, $options = array())
     {
-        $this->session      = $session;
-        $this->translator  = $translator;
-        $this->options      = $options;
+        $this->session    = $options['session'];
+        $this->translator = $translator;
+        $this->options    = $options;
     }
     /**
      * @param FormBuilderInterface $builder
@@ -67,16 +61,15 @@ class ContactFormType extends AbstractType
             ),
             'required' => false
         ));
-        $builder->add('captcha',
-            new CaptchaType(
-                $this->session, $this->translator
-            ),
-            array_merge($this->options, array(
-                'invalid_message' => $this->translator->trans(
-                    'Antispam value is incorrect.'
-                )
-            ))
-        );
+//        $builder->add('captcha',
+//            CaptchaType::class,
+//            array_merge($this->options, array(
+//                'invalid_message' => $this->translator->trans(
+//                    'Antispam value is incorrect.'
+//                ),
+//                'session' => $this->session,
+//            ))
+//        );
         $builder->add('message', 'textarea', array(
             'attr' => array(
                 'placeholder' => 'Your message',
