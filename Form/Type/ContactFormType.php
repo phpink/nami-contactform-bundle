@@ -1,9 +1,13 @@
 <?php namespace PhpInk\Nami\ContactFormBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraints\Collection;
 use Symfony\Component\Validator\Constraints\Email;
@@ -13,70 +17,63 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 class ContactFormType extends AbstractType
 {
     /**
+     * @var SessionInterface
+     */
+    protected $session;
+
+    /**
      * @var TranslatorInterface
      */
     protected $translator;
 
-    /**
-     * Options
-     * @var array
-     */
-    private $options = array();
-
-    /**
-     * @param TranslatorInterface $translator
-     * @param array               $options
-     */
-    public function __construct(TranslatorInterface $translator, $options = array())
-    {
-        $this->session    = $options['session'];
-        $this->translator = $translator;
-        $this->options    = $options;
-    }
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('subject', 'text', array(
+        $this->session    = $options['session'];
+        $this->translator = $options['translator'];
+        
+        $builder->add('subject', TextType::class, array(
             'attr' => array(
                 'placeholder' => 'Subject'
             )
         ));
-        $builder->add('name', 'text', array(
+        $builder->add('name', TextType::class, array(
             'attr' => array(
                 'placeholder' => 'Your name',
                 'pattern'     => '.{2,}' //minlength
             )
         ));
-        $builder->add('email', 'email', array(
+        $builder->add('email', EmailType::class, array(
             'attr' => array(
                 'placeholder' => 'Your email'
             )
         ));
-        $builder->add('company', 'text', array(
+        $builder->add('company', TextType::class, array(
             'attr' => array(
                 'placeholder' => 'Your company'
             ),
             'required' => false
         ));
-//        $builder->add('captcha',
-//            CaptchaType::class,
-//            array_merge($this->options, array(
-//                'invalid_message' => $this->translator->trans(
-//                    'Antispam value is incorrect.'
-//                ),
-//                'session' => $this->session,
-//            ))
-//        );
-        $builder->add('message', 'textarea', array(
+        $builder->add('captcha',
+            CaptchaType::class,
+            array_merge($options, array(
+                'invalid_message' => $this->translator->trans(
+                    'Antispam value is incorrect.'
+                ),
+                'session' => $this->session,
+                'translator' => $this->translator,
+            ))
+        );
+        $builder->add('message', TextareaType::class, array(
             'attr' => array(
                 'placeholder' => 'Your message',
                 'class' => 'textarea'
             )
         ));
-        $builder->add('submit', 'submit');
+        $builder->add('submit', SubmitType::class);
     }
 
     /**
@@ -110,8 +107,15 @@ class ContactFormType extends AbstractType
         ));
     }
 
-    public function getName()
+    public function configureOptions(OptionsResolver $resolver)
     {
-        return 'contact';
+        $resolver->setRequired(['session', 'translator']);
+        $resolver->addAllowedTypes('session', SessionInterface::class);
+        $resolver->addAllowedTypes('translator', TranslatorInterface::class);
+    }
+
+    public function getBlockPrefix()
+    {
+        return 'nami_contactform_contact';
     }
 }

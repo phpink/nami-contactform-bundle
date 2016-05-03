@@ -1,10 +1,12 @@
 <?php namespace PhpInk\Nami\ContactFormBundle\Form\Type;
 
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -38,22 +40,13 @@ class CaptchaType extends AbstractType
     private $options = array();
 
     /**
-     * @param SessionInterface    $session
-     * @param TranslatorInterface $translator
-     * @param array               $options
-     */
-    public function __construct(SessionInterface $session, TranslatorInterface $translator, $options = array())
-    {
-        $this->session      = $options['session'];
-        $this->translator  = $translator;
-        $this->options      = $options;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $this->session    = $options['session'];
+        $this->translator = $options['translator'];
+        
         $validator = new CaptchaValidator(
             $this->translator,
             $this->session,
@@ -66,7 +59,7 @@ class CaptchaType extends AbstractType
         );
 
         $this->captchaSum = array(rand(1,9), rand(1,9));
-        $builder->add('captcha', 'text', array(
+        $builder->add('captcha', TextType::class, array(
             'attr' => array(
                 'placeholder' => sprintf(
                     'Combien font %d + %d ? (antispam)',
@@ -91,14 +84,15 @@ class CaptchaType extends AbstractType
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $this->options['mapped'] = false;
         $this->options['compound'] = true;
         $resolver->setDefaults($this->options);
+
+        $resolver->setRequired(['session', 'translator']);
+        $resolver->addAllowedTypes('session', SessionInterface::class);
+        $resolver->addAllowedTypes('translator', TranslatorInterface::class);
     }
 
     /**
@@ -106,14 +100,14 @@ class CaptchaType extends AbstractType
      */
     public function getParent()
     {
-        return 'text';
+        return TextType::class;
     }
 
     /**
      * @return string
      */
-    public function getName()
+    public function getBlockPrefix()
     {
-        return 'captcha';
+        return 'nami_contactform_captcha';
     }
 }

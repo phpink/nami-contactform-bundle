@@ -67,15 +67,11 @@ class BlockRenderListener
             }
             $event->getBlock()->setContent(
                 $this->twig->render(
-                    '@NamiContactFormBundle/Resources/views/mail.html.twig',
+                    '@NamiContactFormBundle/Resources/views/block.html.twig',
                     array(
                         'form' => $this->getForm($event)->createView(),
                         'mailSent' => $this->mailSent
-                    ),
-                    [
-                        'session' => $session,
-                        'translator' => $this->translator
-                    ]
+                    )
                 )
             );
             return $this;
@@ -90,14 +86,15 @@ class BlockRenderListener
     private function getForm(BlockRenderEvent $event)
     {
         $form = $this->formFactory->create(
-            ContactFormType::class, null, [
+            ContactFormType::class, null,
+            [
                 'session' => $event->getRequest()->getSession(),
-                'translator' => $this->translator
+                'translator' => $this->translator,
             ]
         );
 
         // Submit the form data
-        if ($event->getRequest()->isMethod('post')) {
+        if ($event->getRequest()->isMethod('POST')) {
             $form->handleRequest($event->getRequest());
 
             // If the submitted data is valid
