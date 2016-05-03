@@ -3,14 +3,14 @@ services:
     nami_contact_form.type.contact:
         class: PhpInk\Nami\ContactFormBundle\Form\Type\ContactType
         arguments:
-            translator: "@translator"
+            - "@translator"
         tags:
             - { name: form.type }
 
     nami_contact_form.type.captchaform:
         class: PhpInk\Nami\ContactFormBundle\Form\Type\CaptchaType
         arguments:
-            translator: "@translator"
+            - "@translator"
         tags:
             - { name: form.type }
 
@@ -18,11 +18,11 @@ services:
     nami_contact_form.listener:
         class: PhpInk\Nami\ContactFormBundle\EventListener\BlockRenderListener
         arguments:
-            mailTo: "%nami_contact_form.mail_to%"
-            host: "%host%"
-            formFactory: "@form.factory"
-            translator: "@translator"
-            twig: "@twig"
-            mailer: "@mailer"
+            - "%nami_contact_form.mail_to%"
+            - "%host%"
+            - "@form.factory"
+            - "@translator"
+            - "@twig"
+            - "@mailer"
         tags:
             - { name: kernel.event_listener, event: nami.block.render, method: onBlockRender }
