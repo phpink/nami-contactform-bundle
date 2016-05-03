@@ -1,0 +1,32 @@
+# Registration
+block:
+  header: Écrivez-nous un message en remplissant le formulaire ci-dessous. Merci.
+form:
+  label:
+    captcha: Combien font %d + %d ? (antispam)
+    subject: Sujet
+    name: Votre nom
+    email: Votre email
+    company: Votre société
+    message: Votre message
+    submit: Envoyer le message
+  error:
+    captcha: L'Antispam est incorrect.
+    name_empty: Le nom ne doit pas être vide.
+    email_empty: L'email ne doit pas être vide.
+    email_invalid: L'email est invalide.
+    subject_empty: Le sujet ne doit pas être vide.
+    message_empty: Le message ne doit pas être vide.
+
+
+email:
+    title: NAMI Demo - Message sur le site
+    header: Un message a été envoyé depuis le formulaire de contact du site Nami Demo
+    label:
+      sender: Expéditeur:
+      company: Société:
+      email: Email:
+      ip: IP:
+      browser: Navigateur:
+      subject: Sujet :
+      message: Contenu du message :

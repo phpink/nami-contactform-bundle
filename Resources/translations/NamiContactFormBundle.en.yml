@@ -1,0 +1,32 @@
+# Registration
+block:
+  header: Write us a message by filling the form below. Thank you.
+form:
+  label:
+    captcha: %d + %d equals ? (antispam)
+    subject: Subject
+    name: Your name
+    email: Your email
+    company: Your company
+    message: Your message
+    submit: Send the message
+  error:
+    captcha: Antispam value is incorrect.
+    name_empty: The name must not be empty.
+    email_empty: The email address must not be empty.
+    email_invalid: Invalid email.
+    subject_empty: The subject must not be empty.
+    message_empty: The message must not be empty.
+
+
+email:
+    title: NAMI Demo - Message on the website
+    header: A message has been sent from Nami contact form
+    label:
+      sender: Sender:
+      company: Company:
+      email: Email:
+      ip: IP:
+      browser: Browser:
+      subject: Subject :
+      message: Message content :

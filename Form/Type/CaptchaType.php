@@ -34,12 +34,6 @@ class CaptchaType extends AbstractType
     protected $translator;
 
     /**
-     * Options
-     * @var array
-     */
-    private $options = array();
-
-    /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -59,14 +53,13 @@ class CaptchaType extends AbstractType
         );
 
         $this->captchaSum = array(rand(1,9), rand(1,9));
+        $label = sprintf(
+            $this->translator->trans('form.label.captcha', [], 'NamiContactFormBundle'),
+            $this->captchaSum[0],
+            $this->captchaSum[1]
+        );
         $builder->add('captcha', TextType::class, array(
-            'attr' => array(
-                'placeholder' => sprintf(
-                    'Combien font %d + %d ? (antispam)',
-                    $this->captchaSum[0],
-                    $this->captchaSum[1]
-                )
-            ),
+            'label' => $label,
             'data' => ''
         ));
     }
@@ -86,9 +79,10 @@ class CaptchaType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $this->options['mapped'] = false;
-        $this->options['compound'] = true;
-        $resolver->setDefaults($this->options);
+        $resolver->setDefaults([
+            'mapped' => false,
+            'compound' => true
+        ]);
 
         $resolver->setRequired(['session', 'translator']);
         $resolver->addAllowedTypes('session', SessionInterface::class);

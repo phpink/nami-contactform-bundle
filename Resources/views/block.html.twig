@@ -1,7 +1,8 @@
+{% trans_default_domain "NamiContactFormBundle" %}
 <article class="block contact-block clearfix">
     {{ form_start(form) }}
 
-    <p class="center">Write us a message by filling the form below. Thank you.</p>
+    <p class="center">{% trans %}block.header{% endtrans %}</p>
 
     {% if mailSent %}
         <div class="alert alert-success" role="alert">
@@ -13,16 +14,16 @@
         {{ form_errors(form) }}
     {% endif %}
 
-    {{ form_widget(form.subject, {'attr': {'class': 'm-b'}}) }}
-    {{ form_widget(form.name, {'attr': {'class': 'm-b'}}) }}
-    {{ form_widget(form.email, {'attr': {'class': 'm-b'}}) }}
-    {{ form_widget(form.company, {'attr': {'class': 'm-b'}}) }}
+    {{ form_row(form.subject, {'attr': {'class': 'm-b'}}) }}
+    {{ form_row(form.name, {'attr': {'class': 'm-b'}}) }}
+    {{ form_row(form.email, {'attr': {'class': 'm-b'}}) }}
+    {{ form_row(form.company, {'attr': {'class': 'm-b'}}) }}
 
-    {{ form_widget(form.captcha.captcha, {'attr': {'class': 'm-b'}}) }}
+    {{ form_row(form.captcha.captcha, {'attr': {'class': 'm-b'}}) }}
 
-    {{ form_widget(form.message, {'attr': {'class': 'm-b'}}) }}
+    {{ form_row(form.message, {'attr': {'class': 'm-b'}}) }}
 
-    {{ form_widget(form.submit, {'label': "Envoyer le message"}) }}
+    {{ form_row(form.submit) }}
 
     {{ form_end(form) }}
 

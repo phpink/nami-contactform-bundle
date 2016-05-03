@@ -36,44 +36,46 @@ class ContactFormType extends AbstractType
         $this->translator = $options['translator'];
         
         $builder->add('subject', TextType::class, array(
-            'attr' => array(
-                'placeholder' => 'Subject'
-            )
+            'label' => 'form.label.subject',
+            'translation_domain' => 'NamiContactFormBundle'
         ));
         $builder->add('name', TextType::class, array(
+            'label' => 'form.label.name',
+            'translation_domain' => 'NamiContactFormBundle',
             'attr' => array(
-                'placeholder' => 'Your name',
                 'pattern'     => '.{2,}' //minlength
             )
         ));
         $builder->add('email', EmailType::class, array(
-            'attr' => array(
-                'placeholder' => 'Your email'
-            )
+            'label' => 'form.label.email',
+            'translation_domain' => 'NamiContactFormBundle',
         ));
         $builder->add('company', TextType::class, array(
-            'attr' => array(
-                'placeholder' => 'Your company'
-            ),
-            'required' => false
+            'label' => 'form.label.company',
+            'required' => false,
+            'translation_domain' => 'NamiContactFormBundle'
         ));
         $builder->add('captcha',
             CaptchaType::class,
             array_merge($options, array(
                 'invalid_message' => $this->translator->trans(
-                    'Antispam value is incorrect.'
+                    'form.error.captcha', [], 'NamiContactFormBundle'
                 ),
                 'session' => $this->session,
                 'translator' => $this->translator,
             ))
         );
         $builder->add('message', TextareaType::class, array(
+            'label' => 'form.label.message',
             'attr' => array(
-                'placeholder' => 'Your message',
                 'class' => 'textarea'
-            )
+            ),
+            'translation_domain' => 'NamiContactFormBundle'
         ));
-        $builder->add('submit', SubmitType::class);
+        $builder->add('submit', SubmitType::class, array(
+            'label' => 'form.label.submit',
+            'translation_domain' => 'NamiContactFormBundle',
+        ));
     }
 
     /**
@@ -84,20 +86,20 @@ class ContactFormType extends AbstractType
     {
         $collectionConstraint = new Collection(array(
             'name' => array(
-                new NotBlank(array('message' => 'Le nom ne doit pas être vide.')),
+                new NotBlank(array('message' => 'form.error.name_empty')),
                 new Length(array('min' => 2))
             ),
             'email' => array(
-                new NotBlank(array('message' => 'L\'email ne doit pas être vide.')),
-                new Email(array('message' => 'L\'email est invalide.'))
+                new NotBlank(array('message' => 'form.error.email_empty')),
+                new Email(array('message' => 'form.error.email_invalid'))
             ),
             'subject' => array(
-                new NotBlank(array('message' => 'Le sujet ne doit pas être vide.')),
+                new NotBlank(array('message' => 'form.error.subject_empty')),
                 new Length(array('min' => 3))
             ),
             'company' => array(),
             'message' => array(
-                new NotBlank(array('message' => 'Le message ne doit pas être vide.')),
+                new NotBlank(array('message' => 'form.error.message_empty')),
                 new Length(array('min' => 5))
             )
         ));

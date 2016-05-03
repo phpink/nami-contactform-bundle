@@ -44,7 +44,12 @@ class BlockRenderListener
     protected $mailer;
 
     /**
-     * @param string $mailTo
+     * @param string              $mailTo
+     * @param string              $host
+     * @param FormFactory         $formFactory
+     * @param TranslatorInterface $translator
+     * @param -                   $twig
+     * @param -                   $mailer
      */
     public function __construct($mailTo, $host, $formFactory, $translator, $twig, $mailer)
     {
@@ -55,7 +60,12 @@ class BlockRenderListener
         $this->twig = $twig;
         $this->mailer = $mailer;
     }
-    
+
+    /**
+     * Replace block content with the contact form
+     * @param BlockRenderEvent $event
+     * @return $this
+     */
     public function onBlockRender(BlockRenderEvent $event)
     {
         if ($event->getBlock()->getType() === 'ContactForm') {

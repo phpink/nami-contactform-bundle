@@ -1,22 +1,24 @@
+{% trans_default_domain "NamiContactFormBundle" %}
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Message sur le site</title>
+    <title>{% trans %}email.title{% endtrans %}</title>
 </head>
 <body class="menu-close">
-<div style="font-family:Helvetica, Arial,sans-serif;">
+<div style="font-family:\'Rokkitt\',Helvetica, Arial,sans-serif;">
+    <img src="https://github.com/phpink/nami-core-bundle/raw/master/Docs/namiLogo.png" alt="Nami logo" />
     <p style="font-weight:bold;font-size:1.6em;color:#165F23;margin:0 0 20px 0">
-        Un message a été envoyé depuis le formulaire de contact
+        {% trans %}email.header{% endtrans %}
     </p>
     <p style="font-size:1.5em;color:#333">
-        Expéditeur:  <strong>{{ name }}</strong><br>
-        <em>Société:  {{ company }}</em><br>
-        <em style="font-style:italic">Email:  {{ email }}</em><br>
-        <em style="font-style:italic">IP:  {{ ip }}</em><br>
-        <em style="font-style:italic">Navigateur:  {{ browser }}</em>
+        {% trans %}email.label.sender{% endtrans %}  <strong>{{ name }}</strong><br>
+        <em>{% trans %}email.label.company{% endtrans %}  {{ company }}</em><br>
+        <em style="font-style:italic">{% trans %}email.label.email{% endtrans %}  {{ email }}</em><br>
+        <em style="font-style:italic">{% trans %}email.label.ip{% endtrans %}  {{ ip }}</em><br>
+        <em style="font-style:italic">{% trans %}email.label.browser{% endtrans %}  {{ browser }}</em>
     </p>
     <p>
-        <span style="font-weight:bold;font-size:1.3em;color:#333">{% if subject %}Sujet : {{ subject }}{% else %}Contenu du message :{% endif %}</span><br><br>
+        <span style="font-weight:bold;font-size:1.3em;color:#333">{% if subject %}{% trans %}email.label.subject{% endtrans %} {{ subject }}{% else %}{% endif %}</span><br><br>
         <span style="font-size:1.6em;">{{ message|nl2br }}</span>
     </p>
 </div>
