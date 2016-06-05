@@ -3,6 +3,7 @@
 namespace PhpInk\Nami\ContactFormBundle\EventListener;
 
 use PhpInk\Nami\ContactFormBundle\Form\Type\ContactFormType;
+use PhpInk\Nami\ContactFormBundle\NamiContactFormBundle;
 use PhpInk\Nami\CoreBundle\Event\BlockRenderEvent;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Form\FormInterface;
@@ -68,7 +69,7 @@ class BlockRenderListener
      */
     public function onBlockRender(BlockRenderEvent $event)
     {
-        if ($event->getBlock()->getType() === 'ContactForm') {
+        if ($event->getBlock()->getType() === NamiContactFormBundle::NAME) {
             $session = $event->getRequest()->getSession();
             if (!$session) {
                 $session = new Session();
