@@ -1,7 +1,13 @@
 
 services:
+    # PluginRegisterEvent listener
+    nami_contact_form.plugin_register_listener:
+        class: PhpInk\Nami\ContactFormBundle\EventListener\PluginRegisterListener
+        tags:
+            - { name: kernel.event_listener, event: nami.plugin.register, method: onPluginRegister }
+
     # BlockRenderEvent listener
-    nami_contact_form.listener:
+    nami_contact_form.block_render_listener:
         class: PhpInk\Nami\ContactFormBundle\EventListener\BlockRenderListener
         arguments:
             mailTo: "%nami_contact_form.mail_to%"
